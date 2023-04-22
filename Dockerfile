@@ -5,6 +5,7 @@ WORKDIR /app
 
 # Copia os arquivos do código para o contêiner
 COPY bot.rb Gemfile Gemfile.lock ./
+RUN apt-get update -y && apt-get install -y build-essential curl libcurl4-openssl-dev libssl-dev ffmpeg python2.7 python 
 
 # Instala as gems necessárias
 RUN bundle install

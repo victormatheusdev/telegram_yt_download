@@ -1,0 +1,58 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    climate_control (0.2.0)
+    cocaine (0.6.0)
+      terrapin (= 0.6.0)
+    concurrent-ruby (1.2.2)
+    dry-core (1.0.0)
+      concurrent-ruby (~> 1.0)
+      zeitwerk (~> 2.6)
+    dry-inflector (1.0.0)
+    dry-logic (1.5.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0, < 2)
+      zeitwerk (~> 2.6)
+    dry-struct (1.6.0)
+      dry-core (~> 1.0, < 2)
+      dry-types (>= 1.7, < 2)
+      ice_nine (~> 0.11)
+      zeitwerk (~> 2.6)
+    dry-types (1.7.1)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0)
+      dry-inflector (~> 1.0)
+      dry-logic (~> 1.4)
+      zeitwerk (~> 2.6)
+    faraday (2.7.4)
+      faraday-net_http (>= 2.0, < 3.1)
+      ruby2_keywords (>= 0.0.4)
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
+    faraday-net_http (3.0.2)
+    ice_nine (0.11.2)
+    multipart-post (2.3.0)
+    ruby2_keywords (0.0.5)
+    telegram-bot-ruby (1.0.0)
+      dry-struct (~> 1.6)
+      faraday (~> 2.0)
+      faraday-multipart (~> 1.0)
+      zeitwerk (~> 2.6)
+    terrapin (0.6.0)
+      climate_control (>= 0.0.3, < 1.0)
+    youtube-dl.rb (0.3.1.2016.09.11.1)
+      cocaine (>= 0.5.4)
+    yt_dlp (0.2.0)
+      terrapin (~> 0)
+    zeitwerk (2.6.7)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  telegram-bot-ruby (~> 1.0)
+  youtube-dl.rb
+  yt_dlp
+
+BUNDLED WITH
+   2.3.26

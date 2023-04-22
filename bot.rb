@@ -1,22 +1,38 @@
 require 'telegram/bot'
-require 'youtube-dl.rb'
+require 'open-uri'
+require 'yt_dlp'
+
 
 token = ENV["TELEGRAM_BOT_TOKEN"]
 
-Telegram::Bot::Client.run(token) do |bot|
-  bot.listen do |message|
-    if message.text.start_with?('/baixar')
-      url = message.text.split(' ')[1]
-      filename = "#{message.chat.id}.mp3"
+# Cria uma instância do bot
+bot = Telegram::Bot::Client.new(token)
 
-      # Baixa o vídeo e converte para MP3
-      YoutubeDL.download(url, output: filename, format: 'bestaudio[ext=m4a]')
+# Inicia o loop de escuta das mensagens
+p "Iniciando bot!"
+bot.listen do |message|
+    Thread.new do 
+  # Verifica se a mensagem é uma url de vídeo do Youtube
+  if message.respond_to?(:text) && message.text.start_with?("https://")
+        # Responde ao usuário que está baixando o vídeo
+        bot.api.send_message(chat_id: message.chat.id, text: "Baixando o vídeo...")
 
-      # Envia o arquivo de MP3 para o usuário
-      bot.api.send_audio(chat_id: message.chat.id, audio: Faraday::UploadIO.new(filename, 'audio/mp3'))
+        # Usa a gem youtube-dl.rb para baixar o vídeo e converter para mp3
 
-      # Remove o arquivo localmente
-      File.delete(filename) if File.exist?(filename)
+        video = YtDlp::Video.new(message.text, extract_audio: true, audio_format: 'mp3', audio_quality:0, embed_thumbnail:true, embed_metadata: true)
+        output_file = video.download
+        new_file = File.basename(output_file, File.extname(output_file)) + ".mp3"
+        # Responde ao usuário que está enviando o mp3
+        bot.api.send_message(chat_id: message.chat.id, text: "Enviando o mp3...")
+
+        # Envia o arquivo mp3 para o usuário
+        bot.api.send_audio(chat_id: message.chat.id, audio: Faraday::UploadIO.new(new_file, 'audio/mpeg'))
+
+        # Exclui o arquivo localmente
+        File.delete(new_file)
+    else
+        # Responde ao usuário que não é uma url válida do Youtube
+        bot.api.send_message(chat_id: message.chat.id, text: "Desculpe, isso não é uma url válida do Youtube.")
     end
-  end
+    end
 end

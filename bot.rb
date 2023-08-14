@@ -31,7 +31,7 @@ bot.listen do |message|
 
         # Exclui o arquivo localmente
         File.delete(new_file)
-        rescue e
+        rescue StandardError => e
             bot.api.send_message(chat_id: message.chat.id, text: "Erro ao caixar vídeo do jeito tradicional. Tentando secundário.")
             video = YtDlp::Video.new(message.text, extract_audio: true, audio_format: 'mp3', audio_quality:0)
             output_file = video.download
